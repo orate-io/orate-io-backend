@@ -7,6 +7,22 @@ const reqLog = (request, response, next) => {
   next()
 }
 
+const unkownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unkown endpoint' })
+}
+
+const errorHandler = (error, request, response, next) => {
+  console.log(error.message)
+
+  if (error.name === 'error') {
+    return response.status(400).send({ error: 'error name' })
+  } // template for error handler, to be expanded as more errors added
+
+  next(error)
+}
+
 module.exports = {
-  reqLog
+  reqLog,
+  unkownEndpoint,
+  errorHandler
 }

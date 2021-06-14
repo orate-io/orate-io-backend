@@ -8,7 +8,7 @@ const server = http.createServer(app)
 
 app.get('/', (request, response) => {
   console.log('went through')
-  response.json("hello world")
+  response.json('hello world')
 })
 
 server.listen(config.PORT, () => {
