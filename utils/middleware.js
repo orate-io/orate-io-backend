@@ -1,6 +1,7 @@
 /**
  * @file Contains the middleware, includes errore handling and request logs.
  */
+const jwt = require('jsonwebtoken')
 
 /**
  * Log of information the user sends to the server.
@@ -16,6 +17,43 @@ const reqLog = (request, response, next) => {
   console.log('Method: ', request.method)
   console.log('Path: ', request.path)
   console.log('Body: ', request.body)
+  console.log('test')
+  next()
+}
+/**
+ * Token receiver that takes the request, finds the auth header, and recieves the token while isolating the bearer token.
+ *
+ * @param {object} request Receives the token.
+ * @param {object} response Returns the token as request.token.
+ * @param {Function} next Next middleware fuunction to be called.
+ */
+const tokenGet = (request, response, next) => {
+  const auth = request.get('Authorization')
+  if (auth){
+    request.token = auth.substring(7)
+
+  }
+  console.log('request token is, ', request.token)
+  next()
+}
+/**
+ * Token decoder that takes the token, verifies it, then decodes it and saves it as a user object and returns that.
+ *
+ * @param {object} request Receives the token minus the bearer substring.
+ * @param {object} response Returns request.user object that contains the user's username and id.
+ * @param {Function} next Next middleware fuunction to be called.
+ */
+const userGet = (request, response, next) => {
+  if (request.token){
+    const tokenDecode = jwt.verify(request.token, process.env.SECRET)
+    request.username = tokenDecode.username
+    request.id = tokenDecode.id
+    request.user = {
+      username: request.username,
+      id: request.id
+    }
+  }
+  console.log(request.user)
   next()
 }
 
@@ -54,6 +92,8 @@ const errorHandler = (error, request, response, next) => {
 
 module.exports = {
   reqLog,
+  tokenGet,
+  userGet,
   unkownEndpoint,
   errorHandler
 }
