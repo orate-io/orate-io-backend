@@ -38,7 +38,6 @@ app.use(middleware.userGet)
  */
 app.use('/login', loginRouter)
 app.use('/signup', signupRouter)
-
 app.use('/video', videoRouter)
 /*
  * Error Handling

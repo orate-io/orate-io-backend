@@ -20,7 +20,6 @@ const reqLog = (request, response, next) => {
   console.log('test')
   next()
 }
-
 /**
  * Token receiver that takes the request, finds the auth header, and recieves the token while isolating the bearer token.
  *
