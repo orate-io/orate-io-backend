@@ -14,7 +14,6 @@ const transcription = require('../utils/transcription')
  */
 videoRouter.get('/', async (request, response) => {
   const user = request.user
-
   const videos = await Video.find({ user })
 
   response

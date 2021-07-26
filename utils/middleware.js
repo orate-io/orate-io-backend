@@ -41,7 +41,6 @@ const tokenGet = (request, response, next) => {
     request.token = auth.substring(7)
 
   }
-  console.log('request token is, ', request.token)
   next()
 }
 >>>>>>> b178781 (Backend Video Page)
@@ -67,9 +66,12 @@ const userGet = (request, response, next) => {
     }
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   console.log(request.user)
 >>>>>>> b178781 (Backend Video Page)
+=======
+>>>>>>> 9e33861 (controller and middleware fixes)
   next()
 }
 
@@ -100,9 +102,12 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({ error: 'error name' })
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   else if (error.name == 'ValidationError') {
     return response.status(401).send({ error: 'invalid username or password' })
 =======
+=======
+>>>>>>> 9e33861 (controller and middleware fixes)
   else if (error.name == 'ValidationError'){
     return response.status(400).send({ error: 'invalid username or password' })
   }
@@ -110,7 +115,10 @@ const errorHandler = (error, request, response, next) => {
     return response.status(401).json({
       error: 'invalid token'
     })
+<<<<<<< HEAD
 >>>>>>> 2713fae (controller and middleware fixes)
+=======
+>>>>>>> 9e33861 (controller and middleware fixes)
   }
   next(error)
 }
