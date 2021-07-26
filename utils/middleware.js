@@ -33,7 +33,6 @@ const tokenGet = (request, response, next) => {
     request.token = auth.substring(7)
 
   }
-  console.log('request token is, ', request.token)
   next()
 }
 /**
@@ -53,7 +52,6 @@ const userGet = (request, response, next) => {
       id: request.id
     }
   }
-  console.log(request.user)
   next()
 }
 
@@ -83,8 +81,13 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'error') {
     return response.status(400).send({ error: 'error name' })
   }
-  else if (error.name == 'validationError'){
-    return response.status(401).send({ error: 'invalid username or password' })
+  else if (error.name == 'ValidationError'){
+    return response.status(400).send({ error: 'invalid username or password' })
+  }
+  else if (error.name === 'JsonWebTokenError'){
+    return response.status(401).json({
+      error: 'invalid token'
+    })
   }
 
   next(error)
