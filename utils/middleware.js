@@ -81,8 +81,18 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'error') {
     return response.status(400).send({ error: 'error name' })
   }
+<<<<<<< HEAD
   else if (error.name == 'ValidationError') {
     return response.status(401).send({ error: 'invalid username or password' })
+=======
+  else if (error.name == 'ValidationError'){
+    return response.status(400).send({ error: 'invalid username or password' })
+  }
+  else if (error.name === 'JsonWebTokenError'){
+    return response.status(401).json({
+      error: 'invalid token'
+    })
+>>>>>>> 2713fae (controller and middleware fixes)
   }
   next(error)
 }
