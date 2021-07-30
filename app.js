@@ -14,8 +14,9 @@ const videoRouter = require('./controllers/video')
 const middleware = require('./utils/middleware')
 
 /* setting the uri based on if the file has access to the env */
-const uri = config.MONGODB_URI
-  ? config.MONGODB_URI
+console.log(config.MONGODB_URL)
+const uri = config.MONGODB_URL
+  ? config.MONGODB_URL
   : null
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })

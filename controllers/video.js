@@ -36,11 +36,14 @@ videoRouter.post('/', async (request, response) => {
     username: request.user.username,
     userId: request.user.id
   })
-  await User
-    .findById(request.user.id)
-    .populate('videos')
-    .exec(User.vidoes.concat(newVid))
-    /* make it find users based on id */
+  /* Reimplimenting this later when data can actually be transferred */
+  /*
+   *   await User
+   *   .findById(request.user.id)
+   *   .populate('videos')
+   *   .exec(User.vidoes.concat(newVid))
+   *   /* make it find users based on id
+   */
   const videos = await Video.find({  })
 
   response
