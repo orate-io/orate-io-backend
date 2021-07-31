@@ -4,6 +4,7 @@
 const videoRouter = require('express').Router()
 const User = require('../models/user')
 const Video = require('../models/video')
+
 /**
  * The login post request checks for a corresponding username in the database and then compares passwords to ensure it was
  * entered correctly, it returns an auth token.
@@ -20,6 +21,7 @@ videoRouter.get('/', async (request, response) => {
     .status(200)
     .json(videos)
 })
+
 /**
  * The login post request checks for a corresponding username in the database and then compares passwords to ensure it was
  * entered correctly, it returns an auth token.

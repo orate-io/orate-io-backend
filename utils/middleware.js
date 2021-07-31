@@ -20,6 +20,7 @@ const reqLog = (request, response, next) => {
   console.log('test')
   next()
 }
+
 /**
  * Token receiver that takes the request, finds the auth header, and recieves the token while isolating the bearer token.
  *
@@ -29,12 +30,12 @@ const reqLog = (request, response, next) => {
  */
 const tokenGet = (request, response, next) => {
   const auth = request.get('Authorization')
-  if (auth){
+  if (auth) {
     request.token = auth.substring(7)
-
   }
   next()
 }
+
 /**
  * Token decoder that takes the token, verifies it, then decodes it and saves it as a user object and returns that.
  *
@@ -43,7 +44,7 @@ const tokenGet = (request, response, next) => {
  * @param {Function} next Next middleware fuunction to be called.
  */
 const userGet = (request, response, next) => {
-  if (request.token){
+  if (request.token) {
     const tokenDecode = jwt.verify(request.token, process.env.SECRET)
     request.username = tokenDecode.username
     request.id = tokenDecode.id
@@ -81,15 +82,9 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'error') {
     return response.status(400).send({ error: 'error name' })
   }
-  else if (error.name == 'ValidationError'){
-    return response.status(400).send({ error: 'invalid username or password' })
+  else if (error.name == 'ValidationError') {
+    return response.status(401).send({ error: 'invalid username or password' })
   }
-  else if (error.name === 'JsonWebTokenError'){
-    return response.status(401).json({
-      error: 'invalid token'
-    })
-  }
-
   next(error)
 }
 
