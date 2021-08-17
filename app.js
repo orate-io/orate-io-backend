@@ -16,8 +16,14 @@ const awsRouter = require('./controllers/awsS3')
 const middleware = require('./utils/middleware')
 
 /* setting the uri based on if the file has access to the env */
+<<<<<<< HEAD
 const uri = config.MONGODB_URI
   ? config.MONGODB_URI
+=======
+console.log(config.MONGODB_URL)
+const uri = config.MONGODB_URL
+  ? config.MONGODB_URL
+>>>>>>> 105b0cc (mongodb URI fix)
   : ''
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
