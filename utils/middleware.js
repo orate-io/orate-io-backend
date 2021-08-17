@@ -17,9 +17,9 @@ const reqLog = (request, response, next) => {
   console.log('Method: ', request.method)
   console.log('Path: ', request.path)
   console.log('Body: ', request.body)
-  console.log('test')
   next()
 }
+
 /**
  * Token receiver that takes the request, finds the auth header, and recieves the token while isolating the bearer token.
  *
@@ -30,6 +30,7 @@ const reqLog = (request, response, next) => {
 const tokenGet = (request, response, next) => {
   const auth = request.get('Authorization')
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (auth) {
     request.token = auth.substring(7)
   }
@@ -38,12 +39,18 @@ const tokenGet = (request, response, next) => {
 
 =======
   if (auth){
+=======
+  if (auth) {
+>>>>>>> 3ed87b4 (main rebase fix)
     request.token = auth.substring(7)
-
   }
   next()
 }
+<<<<<<< HEAD
 >>>>>>> b178781 (Backend Video Page)
+=======
+
+>>>>>>> 3ed87b4 (main rebase fix)
 /**
  * Token decoder that takes the token, verifies it, then decodes it and saves it as a user object and returns that.
  *
@@ -53,10 +60,14 @@ const tokenGet = (request, response, next) => {
  */
 const userGet = (request, response, next) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (request.token) {
 =======
   if (request.token){
 >>>>>>> b178781 (Backend Video Page)
+=======
+  if (request.token) {
+>>>>>>> 3ed87b4 (main rebase fix)
     const tokenDecode = jwt.verify(request.token, process.env.SECRET)
     request.username = tokenDecode.username
     request.id = tokenDecode.id
@@ -103,6 +114,7 @@ const errorHandler = (error, request, response, next) => {
   }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   else if (error.name == 'ValidationError') {
     return response.status(401).send({ error: 'invalid username or password' })
 =======
@@ -120,6 +132,11 @@ const errorHandler = (error, request, response, next) => {
 =======
 >>>>>>> 9e33861 (controller and middleware fixes)
   }
+=======
+  else if (error.name == 'ValidationError') {
+    return response.status(401).send({ error: 'invalid username or password' })
+  }
+>>>>>>> 3ed87b4 (main rebase fix)
   next(error)
 }
 
@@ -130,4 +147,3 @@ module.exports = {
   unkownEndpoint,
   errorHandler
 }
-
