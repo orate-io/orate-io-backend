@@ -13,11 +13,11 @@ const transcription = require('../utils/transcription')
  * @returns Array of all videos that have been posted by the user.
  */
 videoRouter.get('/', async (request, response) => {
-  const user = request.user
-  const videos = await Video.find({ user })
+  const userId = request.id
 
-  response
-    .status(200)
+  const videos = await Video.find({ user: userId })
+
+  return response
     .json(videos)
 })
 
