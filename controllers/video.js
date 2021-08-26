@@ -37,7 +37,7 @@ videoRouter.post('/', async (request, response) => {
     user: request.user.id,
     s3ID: request.body.id
   })
-
+  console.log('check')
   try {
     const savedVideo = await video.save()
     const user = await User.findById(request.user.id)
@@ -45,10 +45,10 @@ videoRouter.post('/', async (request, response) => {
     await user.save()
     transcription.transcribe(video.url, video.s3ID)
   } catch (error) {
-    response.status(400).json({ error: 'failed to save video to user' })
+    return response.status(400).json({ error: 'failed to save video to user' })
   }
 
-  response.status(200)
+  return response.status(201).redirect('http://localhost:3000/videos')
 })
 
 module.exports = videoRouter

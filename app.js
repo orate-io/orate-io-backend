@@ -44,8 +44,8 @@ app.use(middleware.userGet)
  */
 app.use('/login', loginRouter)
 app.use('/signup', signupRouter)
-app.use('/video', videoRouter)
 app.use('/s3Url', awsRouter)
+app.use('/video', videoRouter)
 
 /*
  * Error Handling
