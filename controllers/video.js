@@ -30,14 +30,13 @@ videoRouter.get('/', async (request, response) => {
  * @param {string} request.body Contains the information sent from the front end, including the token and video object.
  * @returns Updated array of videos the user posted.
  */
-videoRouter.post('/', async (request, response) => {
+videoRouter.post('/', async (request, response, next) => {
   const video = new Video ({
     url: request.body.url,
     name: request.body.name,
     user: request.user.id,
     s3ID: request.body.id
   })
-  console.log('check')
   try {
     const savedVideo = await video.save()
     const user = await User.findById(request.user.id)
@@ -45,10 +44,8 @@ videoRouter.post('/', async (request, response) => {
     await user.save()
     transcription.transcribe(video.url, video.s3ID)
   } catch (error) {
-    return response.status(400).json({ error: 'failed to save video to user' })
+    next(error)
   }
-
-  return response.status(201).redirect('http://localhost:3000/videos')
 })
 
 module.exports = videoRouter

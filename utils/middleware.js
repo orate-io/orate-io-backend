@@ -107,8 +107,6 @@ const unkownEndpoint = (request, response) => {
  * @returns {error} Returns status code representing error.
  */
 const errorHandler = (error, request, response, next) => {
-  console.log('end of middleware')
-
   if (error.name === 'error') {
     return response.status(400).send({ error: 'error name' })
   }
