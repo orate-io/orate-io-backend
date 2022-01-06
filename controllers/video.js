@@ -12,14 +12,17 @@ const transcription = require('../utils/transcription')
  * @function get Sends a get request to /video
  * @returns Array of all videos that have been posted by the user.
  */
-videoRouter.get('/', async (request, response) => {
-  const user = request.user
+videoRouter.get('/', async (request, response, next) => {
+  const user = request.user.id
 
-  const videos = await Video.find({ user })
+  try{
+    const videos = await Video.find({ user })
+    response.status(200).json(videos)
+  }
+  catch(error){
+    next(error)
+  }
 
-  response
-    .status(200)
-    .json(videos)
 })
 /**
  * The login post request checks for a corresponding username in the database and then compares passwords to ensure it was
@@ -30,14 +33,13 @@ videoRouter.get('/', async (request, response) => {
  * @param {string} request.body Contains the information sent from the front end, including the token and video object.
  * @returns Updated array of videos the user posted.
  */
-videoRouter.post('/', async (request, response) => {
+videoRouter.post('/', async (request, response, next) => {
   const video = new Video ({
     url: request.body.url,
     name: request.body.name,
     user: request.user.id,
     s3ID: request.body.id
   })
-
   try {
     const savedVideo = await video.save()
     const user = await User.findById(request.user.id)
@@ -45,10 +47,10 @@ videoRouter.post('/', async (request, response) => {
     await user.save()
     transcription.transcribe(video.url, video.s3ID)
   } catch (error) {
-    response.status(400).json({ error: 'failed to save video to user' })
+    next(error)
   }
 
-  response.status(200)
+  response.status(201).json({ response: 'video uploaded succesfully!' })
 })
 
 module.exports = videoRouter

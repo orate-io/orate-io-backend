@@ -29,6 +29,7 @@ const reqLog = (request, response, next) => {
  */
 const tokenGet = (request, response, next) => {
   const auth = request.get('Authorization')
+  console.log('REQ TOKEN: ', auth)
   if (auth) {
     request.token = auth.substring(7)
   }

@@ -43,7 +43,6 @@ awsRouter.get('/', async (request, response) => {
   })
 
   const uploadURL = await s3.getSignedUrlPromise('putObject', params)
-
   response.json({
     'url': uploadURL,
     'videoId': videoId
