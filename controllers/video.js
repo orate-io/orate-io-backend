@@ -12,15 +12,18 @@ const transcription = require('../utils/transcription')
  * @function get Sends a get request to /video
  * @returns Array of all videos that have been posted by the user.
  */
-videoRouter.get('/', async (request, response) => {
-  const userId = request.id
+videoRouter.get('/', async (request, response, next) => {
+  const user = request.user.id
 
-  const videos = await Video.find({ user: userId })
+  try{
+    const videos = await Video.find({ user })
+    response.status(200).json(videos)
+  }
+  catch(error){
+    next(error)
+  }
 
-  return response
-    .json(videos)
 })
-
 /**
  * The login post request checks for a corresponding username in the database and then compares passwords to ensure it was
  * entered correctly, it returns an auth token.
@@ -46,6 +49,9 @@ videoRouter.post('/', async (request, response, next) => {
   } catch (error) {
     next(error)
   }
+
+  response.status(201).json({ response: 'video uploaded succesfully!' })
 })
 
 module.exports = videoRouter
+

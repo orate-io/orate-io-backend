@@ -19,7 +19,6 @@ const reqLog = (request, response, next) => {
   console.log('Body: ', request.body)
   next()
 }
-
 /**
  * Token receiver that takes the request, finds the auth header, and recieves the token while isolating the bearer token.
  *
@@ -104,12 +103,16 @@ const unkownEndpoint = (request, response) => {
  * @param {object} response Returns error message error is returned.
  * @param {Function} next Next middleware fuunction to be called.
  * @param {object} error The error type received.
- * @returns {error} Returns status code representing error.
  */
 const errorHandler = (error, request, response, next) => {
-  if (error.name === 'error') {
-    return response.status(400).send({ error: 'error name' })
+
+  if (error.message === 'invalidPass') {
+    response.status(400).send({ error: 'invalid login' })
   }
+  else if (error.message === 'userExists') {
+    response.status(400).send({ error: 'username exists' })
+  }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -133,6 +136,10 @@ const errorHandler = (error, request, response, next) => {
 =======
   else if (error.name == 'ValidationError') {
     return response.status(401).send({ error: 'invalid username or password' })
+=======
+  else{
+    response.status(400).send({ error: 'bad request' })
+>>>>>>> 252e1a1 (error handling)
   }
 >>>>>>> 3ed87b4 (main rebase fix)
   next(error)

@@ -13,22 +13,33 @@ const User = require('../models/user')
  * @param {string} request.body Contains the information sent from the front end, including the username, email, and password.
  * @returns The generated user object.
  */
-signupRouter.post('/', async (request, response) => {
+signupRouter.post('/', async (request, response, next) => {
   const body = request.body
+  try{
+    const userCheck = await User.find({ username: body.username, email: body.email })
 
-  const saltRounds = 10
-  const passwordHash = await bcrypt.hash(body.password, saltRounds)
+    if(userCheck.length != 0){
+      throw new Error('userExists')
+    }
 
-  const user = new User ({
-    username: body.username,
-    email: body.email,
-    passHash: passwordHash,
-    videos: []
-  })
-  try {
-    await user.save()
-  } catch (error) {
-    return response.send(error).status(403)
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+    const user = new User ({
+      username: body.username,
+      email: body.email,
+      passHash: passwordHash,
+      videos: []
+    })
+    try{
+      await user.save()
+      response.status(201).end()
+    }
+    catch(error){
+      response.status(400).end()
+    }
+  }
+  catch (error){
+    next(error)
   }
 
 })

@@ -15,25 +15,29 @@ const User = require('../models/user')
  * @param {string} request.body Contains the information sent from the front end, including the username, and password.
  * @returns Auth token to frontend.
  */
-loginRouter.post('/', async (request, response) => {
+loginRouter.post('/', async (request, response, next) => {
   const body = request.body
-  const user = await User.findOne({ username: body.username })
-  const isValid = await bcrypt.compare(body.password, user.passHash)
-  if (!(user && isValid)) {
-    return response.status(400).json({
-      error: 'invalid username or password'
-    })
+  try{
+    const user = await User.findOne({ username: body.username })
+    const isValid = await bcrypt.compare(body.password, user.passHash)
+    if (!(user && isValid)) {
+      throw new Error('invalidPass')
+    }
+
+    const tokenData = {
+      username: user.username,
+      id: user._id
+    }
+    const token = jwt.sign(tokenData, process.env.SECRET)
+
+    response
+      .status(200)
+      .send ({ token })
+  }
+  catch(error){
+    next(error)
   }
 
-  const tokenData = {
-    username: user.username,
-    id: user._id
-  }
-  const token = jwt.sign(tokenData, process.env.SECRET)
-
-  response
-    .status(200)
-    .send ({ token })
 })
 
 
