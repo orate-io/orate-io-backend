@@ -17,6 +17,7 @@ const reqLog = (request, response, next) => {
   console.log('Method: ', request.method)
   console.log('Path: ', request.path)
   console.log('Body: ', request.body)
+  console.log('test')
   next()
 }
 /**
@@ -28,28 +29,13 @@ const reqLog = (request, response, next) => {
  */
 const tokenGet = (request, response, next) => {
   const auth = request.get('Authorization')
-<<<<<<< HEAD
-<<<<<<< HEAD
+  console.log('REQ TOKEN: ', auth)
   if (auth) {
     request.token = auth.substring(7)
   }
   next()
 }
 
-=======
-  if (auth){
-=======
-  if (auth) {
->>>>>>> 3ed87b4 (main rebase fix)
-    request.token = auth.substring(7)
-  }
-  next()
-}
-<<<<<<< HEAD
->>>>>>> b178781 (Backend Video Page)
-=======
-
->>>>>>> 3ed87b4 (main rebase fix)
 /**
  * Token decoder that takes the token, verifies it, then decodes it and saves it as a user object and returns that.
  *
@@ -58,15 +44,7 @@ const tokenGet = (request, response, next) => {
  * @param {Function} next Next middleware fuunction to be called.
  */
 const userGet = (request, response, next) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
   if (request.token) {
-=======
-  if (request.token){
->>>>>>> b178781 (Backend Video Page)
-=======
-  if (request.token) {
->>>>>>> 3ed87b4 (main rebase fix)
     const tokenDecode = jwt.verify(request.token, process.env.SECRET)
     request.username = tokenDecode.username
     request.id = tokenDecode.id
@@ -75,13 +53,6 @@ const userGet = (request, response, next) => {
       id: request.id
     }
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  console.log(request.user)
->>>>>>> b178781 (Backend Video Page)
-=======
->>>>>>> 9e33861 (controller and middleware fixes)
   next()
 }
 
@@ -103,45 +74,17 @@ const unkownEndpoint = (request, response) => {
  * @param {object} response Returns error message error is returned.
  * @param {Function} next Next middleware fuunction to be called.
  * @param {object} error The error type received.
+ * @returns {error} Returns status code representing error.
  */
 const errorHandler = (error, request, response, next) => {
+  console.log(error.message)
 
-  if (error.message === 'invalidPass') {
-    response.status(400).send({ error: 'invalid login' })
+  if (error.name === 'error') {
+    return response.status(400).send({ error: 'error name' })
   }
-  else if (error.message === 'userExists') {
-    response.status(400).send({ error: 'username exists' })
-  }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   else if (error.name == 'ValidationError') {
     return response.status(401).send({ error: 'invalid username or password' })
-=======
-=======
->>>>>>> 9e33861 (controller and middleware fixes)
-  else if (error.name == 'ValidationError'){
-    return response.status(400).send({ error: 'invalid username or password' })
   }
-  else if (error.name === 'JsonWebTokenError'){
-    return response.status(401).json({
-      error: 'invalid token'
-    })
-<<<<<<< HEAD
->>>>>>> 2713fae (controller and middleware fixes)
-=======
->>>>>>> 9e33861 (controller and middleware fixes)
-  }
-=======
-  else if (error.name == 'ValidationError') {
-    return response.status(401).send({ error: 'invalid username or password' })
-=======
-  else{
-    response.status(400).send({ error: 'bad request' })
->>>>>>> 252e1a1 (error handling)
-  }
->>>>>>> 3ed87b4 (main rebase fix)
   next(error)
 }
 
@@ -152,3 +95,4 @@ module.exports = {
   unkownEndpoint,
   errorHandler
 }
+

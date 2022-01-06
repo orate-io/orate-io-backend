@@ -20,7 +20,6 @@ const uri = config.MONGODB_URI
   ? config.MONGODB_URI
   : ''
 
-console.log(config.MONGODB_URI)
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     console.log('connected to mongoDB')
@@ -44,8 +43,8 @@ app.use(middleware.userGet)
  */
 app.use('/login', loginRouter)
 app.use('/signup', signupRouter)
-app.use('/s3Url', awsRouter)
 app.use('/video', videoRouter)
+app.use('/s3Url', awsRouter)
 
 /*
  * Error Handling
