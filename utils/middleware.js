@@ -29,12 +29,22 @@ const reqLog = (request, response, next) => {
  */
 const tokenGet = (request, response, next) => {
   const auth = request.get('Authorization')
+<<<<<<< HEAD
   if (auth) {
     request.token = auth.substring(7)
   }
   next()
 }
 
+=======
+  if (auth){
+    request.token = auth.substring(7)
+
+  }
+  console.log('request token is, ', request.token)
+  next()
+}
+>>>>>>> b178781 (Backend Video Page)
 /**
  * Token decoder that takes the token, verifies it, then decodes it and saves it as a user object and returns that.
  *
@@ -43,7 +53,11 @@ const tokenGet = (request, response, next) => {
  * @param {Function} next Next middleware fuunction to be called.
  */
 const userGet = (request, response, next) => {
+<<<<<<< HEAD
   if (request.token) {
+=======
+  if (request.token){
+>>>>>>> b178781 (Backend Video Page)
     const tokenDecode = jwt.verify(request.token, process.env.SECRET)
     request.username = tokenDecode.username
     request.id = tokenDecode.id
@@ -52,6 +66,10 @@ const userGet = (request, response, next) => {
       id: request.id
     }
   }
+<<<<<<< HEAD
+=======
+  console.log(request.user)
+>>>>>>> b178781 (Backend Video Page)
   next()
 }
 

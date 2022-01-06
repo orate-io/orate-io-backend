@@ -19,7 +19,8 @@ const videoSchema = new mongoose.Schema({
     require: true
   },
   s3ID: { type: String, require: true },
-  transcription: { type: String }
+  transcription: { type: String },
+  video: { type: String, require: true }
 })
 
 videoSchema.set('toJSON', {
